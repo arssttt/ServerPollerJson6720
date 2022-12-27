@@ -20,11 +20,11 @@ const
   GameStateTextIDs: array [TMPGameState] of string = ('mgsNone', 'mgsLobby', 'mgsLoading', 'mgsGame');
   PlayerTypeTextIDs: array [TNetPlayerType] of string = ('nptHuman', 'nptComputer', 'nptClosed');
   MasterServerAddress = 'http://kam.hodgman.id.au/';
-  TIMEOUT=10000;
+  TIMEOUT=6000;
 
 var
   fServerQuery: TKMServerQuery;
-  I, J, TIME, PlayerCount: Integer;
+  I, J, TIME, PlayerCount, RoomCount: Integer;
   R: TKMRoomInfo;
   S: TKMServerInfo;
   DisplayName, ShortName: string;
@@ -53,11 +53,15 @@ begin
 
   JSONObject := TJSONObject.Create;
   RoomsArray := TJSONArray.Create();
+  RoomCount :=0;
   for I := 0 to fServerQuery.Rooms.Count - 1 do
        begin
        R := fServerQuery.Rooms[I];
        S := fServerQuery.Servers[R.ServerIndex];
        ShortName := StripColor(S.Name + ' #' + IntToStr(R.RoomID + 1));
+
+       if R.GameInfo.PlayerCount=0 then continue;
+       inc(RoomCount);
 
        RoomObject:=TJSONObject.Create;
        RoomObject.AddPair('ServerName',ShortName);
@@ -91,7 +95,7 @@ begin
        RoomObject.AddPair('Players',PlayersArray);
        RoomsArray.AddElement(RoomObject);
       end;
-  JSONObject.AddPair('RoomsCount',TJSONNumber.Create(fServerQuery.Rooms.Count));
+  JSONObject.AddPair('RoomsCount',TJSONNumber.Create(RoomCount));
   JSONObject.AddPair('Rooms',RoomsArray);
   writeln(JSONObject.ToString);
   JSONObject.Destroy;
