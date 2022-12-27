@@ -7,7 +7,7 @@ uses Classes, SysUtils,
 
 const
   MAX_QUERIES = 15; //The maximum number of individual server queries that can be happening at once
-  QUERY_TIMEOUT = 5000; //The maximum amount of time for an individual query to take (will take at least 2*ping)
+  QUERY_TIMEOUT = 4000; //The maximum amount of time for an individual query to take (will take at least 2*ping)
   MIN_UDP_SCAN_TIME = 100; //Assume we won't get any more UDP responses after this time (remove 'Refreshing...' text if no servers found)
 
 type
