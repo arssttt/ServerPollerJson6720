@@ -84,7 +84,7 @@ begin
             PlayerObject.AddPair('Name','Computer')
             else
             PlayerObject.AddPair('Name',R.GameInfo.Players[J].Name);
-          PlayerObject.AddPair('Color',inttohex(R.GameInfo.Players[J].Color,8));
+          PlayerObject.AddPair('Color',RightStr(inttohex(R.GameInfo.Players[J].Color,8),6));
           PlayerObject.AddPair('PlayerType',PlayerTypeTextIDs[R.GameInfo.Players[J].PlayerType]);
           PlayersArray.AddElement(PlayerObject);
           end;
